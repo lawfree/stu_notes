@@ -93,4 +93,53 @@ int main(){
             __LINE__    存放当前行号的整型字面值
             __TIME__    存放文件编译时间的字符串字面值
             __DATE__
+6.7 函数指针
+    函数指针指向的是函数而非对象，和其他指针一样，函数指针指向某种特定类型。函数类型由它的返回类型和形参类型共同决定，与函数名无关
+        //比较两个string对象的长度
+        bool lengthCompare(const string &, const string &);
+    该函数的类型是bool(const string &, const string &)。想声明一个可以指向该函数的指针，只需要用指针替换函数名即可：
+        //pf指向一个函数，该函数的参数是两个const string的引用，返回值是bool类型
+        bool (*pf)(const string &,const string &);  //未初始化
+    pf前面有个*,因此pf是指针;右侧是形参列表,表示pf指向的是函数;再观察左侧,发现函数的返回类型是bool值.因此.pf就是一个指向函数的指针,
+    其中该函数的参数是两个const string 的引用,返回值bool类型
+    *pf两端的括号必不可少,如果不写括号,则pf是一个返回值为bool指针的函数:
+        //声明一个名为pf的函数,该函数返回bool*
+        bool *pf(const string...);
+
+    使用函数指针
+        当我们把函数名作为一个值来使用时,该函数自动地转换为指针.
+        pf = lengthCompare;     //pf指向名为lengthCompare的函数
+        pf = &lengthConmpare;   //等价的赋值语句:取地址符号是可选的
+
+        此外,还可以直接使用指向函数的指针调用该函数,无需提前解引用指针:
+        bool b1 = pf("hello" , "goodbye");      //调用lengthCompare函数
+        bool b2 = (*pf)("hello" , "goodbye");   //一个等价的调用
+        bool b3 = lengthCompare(...)            //另一个等价调用
+    重载函数的指针
+        当使用重载函数时,上下文必须清晰界定到底应该选用哪个函数.
+    函数指针形参
+        和数组类似,虽然不能定义函数类型的形参,但是形参可以是指向函数的指针.此时形参看起来是函数类型,实际上是当成指针使用:
+            //第三个形参是函数类型,它会自动地转换成指向函数的指针
+            void useBigger(const string &s1 , const string &s2,
+                            bool pf(const string &, const string &));
+            //等价声明:显式地将形参定义成指向函数的指针
+            void useBigger(const string &s1 , const string &s2,
+                            bool (*pf)(const string &, const string &));                                        
+            //直接把函数当做实参使用,它会自动转换为指针
+            useBigger (s1 , s2 , lengthCompare);                
+    返回指向函数的指针
+        和数组类似,虽然不能返回一个函数,但是能返回指向函数类型的指针.然而,我们必须把返回类型写成指针形式,编译器不会自动地将函数返回类型当成对应指针类型处理
+
+
+
+
+
+
+
+
+
+
+
+
+
 */
