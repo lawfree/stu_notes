@@ -3,8 +3,11 @@
 
 using namespace std;
 using std::vector;
-struct Sales_data 
-{
+class Sales_data {
+    friend Sales_data add (const Sales_data&, const Sales_data&);
+    friend ostream &print(ostream&, const Sales_data&);
+    friend istream &read (istream&, Sales_data&);
+public:    
     //新增的构造函数
     Sales_data() = default;
     Sales_data(const std::string &s) : bookNo(s){ }
@@ -14,7 +17,9 @@ struct Sales_data
 
     //成员:关于Sales_data对象的操作
     string isbn() const {return bookNo; }
+
     Sales_data& combine (const Sales_data&);
+private:
     double avg_price() const;
     //定义在类内部的函数是隐式的inline函数
 
@@ -22,10 +27,28 @@ struct Sales_data
     unsigned units_sold = 0;
     double revenue = 0.0;
 };
+
+// struct Sales_data 
+// {
+//     //新增的构造函数
+//     Sales_data() = default;
+//     Sales_data(const std::string &s) : bookNo(s){ }
+//     Sales_data(const std::string &s , unsigned n , double p):
+//         bookNo(s) , units_sold(n) , revenue(p*n){ }
+//     Sales_data(std :: istream &);       
+
+//     //成员:关于Sales_data对象的操作
+//     string isbn() const {return bookNo; }
+//     Sales_data& combine (const Sales_data&);
+//     double avg_price() const;
+//     //定义在类内部的函数是隐式的inline函数
+
+//     string bookNo;
+//     unsigned units_sold = 0;
+//     double revenue = 0.0;
+// };
 // Sales_data 的非成员接口函数
-Sales_data add (const Sales_data&, const Sales_data&);
-ostream &print(ostream&, const Sales_data&);
-istream &read (istream&, Sales_data&);
+
 
 Sales_data& Sales_data::combine(const Sales_data &rhs){
     units_sold += rhs.units_sold;   //把rhs的成员加到this对象成员上
@@ -227,8 +250,116 @@ int main(){
         类可以在它的第一个访问说明符之前定义成员,对这种成员的访问权限依赖于类定义方式
         我们希望定义的类的所有成员是public时,用struct;反之希望成员是private,使用class
 友元
+    友元函数可以访问类的 private 和 protected 成员。
+    既然Sales_data 的数据成员是private的,我们的read,print和add函数就无法正常编译,因为尽管这几个函数函数是类的接口的一部分,但它们不是类成员
+    类可以允许其他类或者函数访问它的非公有函数,方法是令其他类或函数成为它的友元.
+    如果类想把一个函数作为它的友元,只需要增加一条friend关键字开始的函数声明语句:
+    友元声明只能出现在类定义的内部,但是在类内出现的具体位置不限.友元不是类的成员也不受它所在区域访问控制级别的约束.
+    一般来说,最好在类定义开始或结束前的位置集中声明友元.
 
+    封装的益处
+        确保用户代码不会无意间破坏封装对象的状态.
+        被封装的类的具体实现细节可以随时改变,而无须调整用户级别的代码
+    一些编译器允许在尚无友元函数的初始声明的情况下就调用它.不过最好是提供一个独立的函数声明.
+    一个友元例子
+        #include <iostream>
+        using namespace std;
+        
+        class Box{
+            double width;
+        public:
+            friend void printWidth( Box box );
+            void setWidth( double wid );
+        };
+        // 成员函数定义
+        void Box::setWidth( double wid ){
+            width = wid;
+        }
+        // 请注意：printWidth() 不是任何类的成员函数
+        void printWidth( Box box ){
+        // 因为 printWidth() 是 Box 的友元，它可以直接访问该类的任何成员 
+            cout << "Width of box : " << box.width <<endl;
+        }  
+        // 程序的主函数
+        int main( ){
+            Box box;
+            // 使用成员函数设置宽度
+            box.setWidth(10.0);    
+            // 使用友元函数输出宽度
+            printWidth( box );    
+            return 0;
+        }
 
+7.3类的其他特性 介绍Sales_data没有体现出来的一些类特性.包括:类的成员,类的成员的类初始值,可变数据成员,内联成员函数,成员函数返回*this
+类成员再探
+        class Screen
+        {
+        public:
+            typedef string::size_type pos;    
+            Screen() = default;         
+
+            //cursor被其类内初始化为0
+            Screen(pos ht, pos wd , char c): height(ht), width(wd),contents(ht * wd , c){}
+            
+            char get() const                            //读取光标处的字符       
+            { return contents [cursor]; }               //隐式内联
+
+            inline char get (pos ht ,  pos wd) const;   //显式内联
+            Screen &move (pos r , pos c);               //能在之后被设为内联
+        private:
+
+            pos cursor = 0;
+            pos height = 0 , width = 0;
+            std::string contents;
+        };    
+    需要指出的是第二个构造函数(接受三个参数)位cursor成员隐式地使用了类的初始值.如果类中不存在cursor初始值,就需要向其他成员显式初始化cursor
+
+    我们无需在声明和定义的地方同时说明inline,但是其实是合法的.不过最好只在类外部定义说明inline.
+    和我们在头文件中定义inline函数的原因一样,inline成员函数也应该与相应的类定义在同一个头文件中
+
+    类数据成员的的初始值
+        在定义好Screen类之后,我们将定义一个窗口管理类并用它表示显示器上的一组Screen.
+        这个类将包含一个Screen类型的vector,每个元素表示一个特定的Screen.默认情况我们希望Window_mgr类开始时总有一个默认初始化的Screen.
+        在C++11新标准中,最好的方式就是把这个默认值声明成一个类内部初始值
+            class Window_mgr{
+            private:
+                //这个Window_mgr追踪的Screen
+                //默认情况下,一个Window_mgr包含一个标准尺寸的空白Screen
+                std::vector<Screen> screens{ Screen(24, 80, ' ') };
+
+            };            
+        当我们初始化类类型的成员时,需要构造函数传递一个符合成员类型的实参.
+        类内初始值必须使用=的初始化形式(初始化Screen的数据成员时所用的)或者花括号括起来的直接初始化形式
+返回*this的成员函数
+    接下来我们继续添加一些函数,它们负责设置光标所在位置的字符或者其他任一给定位置的字符:
+        inline Screen &Screen::set(char c){
+            contents[cursor] = c;                       //设置当前光标所在位置的新值
+            return *this;
+        }
+        inline Screen &Screen::set(pos r , pos col , char ch){
+            contents[r * width + col] = ch ; 
+            return *this;
+        }
+    和move操作一样,我们的set成员的返回值是调用set对象的引用.返回引用的函数是左值的,意味着这些函数返回的是对象本身而非对象副本
+    如果我们把一系列这样操作连接在一条表达式的话:
+        //把光标移动到一个指定的位置,然后设置该位置的字符值
+        myScreen.move(4,0).set('#');
+    这些操作将在同一个对象上执行.等价于
+        myScreen.move(4,0);
+        myScreen,set('#');
+
+    假如当初我们定义的返回类型不是引用,则move的返回值将是*this的副本,因此调用set只能改变临时副本,而不能改变myScreen的值.
+    从const成员函数返回 *this 
+        接下来添加个名为disply的操作,其负责打印Screen的内容.我们希望这个函数和move以及set出现在同一序列中,因此类似于move和set,
+        display也应该返回 执行它的对象的引用    
+        一个const成员函数如果以引用的形式返回*this,那么它的返回类型将是常量引用.
+    基于const的重载
+        通过区分成员函数是否是const的,我们可对其进行重载,其原因与我们之前根据指针参数是否指向const而重载的原因差不多.
+        因为非常量版本的函数对于常量对象是不可用的,所以我们只能在一个常量对象上调用const成员函数.
+        另外,虽然可以在非常量对象上调用常量版本或非常量版本,但显然此时非常量版本是一个更好的匹配.
+        
+        在下面的例子中,我们将定义个名为do_display的私有成员,由它负责打印Screen的实际工作.所有的display操作都将调用这个函数,然后返回执行操作的对象
+            
 
 
 */  
