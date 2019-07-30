@@ -5,6 +5,8 @@ using namespace std;
 
 class Screen
 {
+    //Windouw_mgr 的成员可以访问Screen类的私有部分
+    friend class Window_mgr;
 public:
     typedef string::size_type pos;    
     Screen() = default;         
@@ -22,13 +24,18 @@ public:
     Screen &set (pos, pos , char);
 
     //根据对象是否是const重载了display函数
-    //Screen &display(std::ostream )
-
+    Screen &display(std::ostream &os)
+        { do_display(os); return *this; }
+    const Screen &display(std :: ostream &os) const
+        { do_display(os); return *this; }         
 private:
 
      pos cursor = 0;
      pos height = 0 , width = 0;
      std::string contents;
+
+    //该函数负责显示Screen的内容
+    void do_display(std::ostream &os) const {os << contents;}
 }; 
 
 inline Screen &Screen::move (pos r , pos c){
@@ -52,9 +59,23 @@ inline Screen &Screen::set(pos r , pos col , char ch){
 
 
 class Window_mgr{
+public :
+    //Window_mgr被指定为Screen的友元,因此我们可以将Window_mgr的clear成员写成如下的形式:
+    //窗口中每个屏幕的编号
+    using ScreenIndex = std :: vector<Screen> :: size_type;
+    //按照编号将指定的Screen重置位空白
+    void clear (ScreenIndex);
+
 private:
     //这个Window_mgr追踪的Screen
     //默认情况下,一个Window_mgr包含一个标准尺寸的空白Screen
     std::vector<Screen> screens{ Screen(24, 80, ' ') };
 
 };
+
+void Window_mgr::clear(ScreenIndex i){
+    // s是一个Screen的引用,指向我们想要清空的那个屏幕
+    Screen &s = screens[i];
+    //将那个选定的Screen重置位空白
+    s.contents = string(s.height * s.width, ' ');
+}
