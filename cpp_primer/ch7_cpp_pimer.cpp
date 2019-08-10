@@ -410,8 +410,70 @@ int main(){
 			friend void Window_mgr::clear(ScreenIndex);
 			//Screen 类剩余部分
 		};
-		
+		要想令某个成员函数作为友元,按照如下方式设计程序
+            首先定义window_mgr类,其中声明clear函数,但是不能定义它.在clear使用Screen的成员之前必须先声明Screen
+            接下来定义Screen,包括对于clear的友元声明
+            最后定义clear,此时它才可以使用Screen的成员
+7.4 类的作用域
+    每个类都会定义它自己的作用域.在类的作用域之外,普通的数据和函数成员只能由对象,引用或者指针使用成员访问运算符来访问.对于类类型成员使用作用域运算符
+    不论那种情况,跟在运算符后的名字都必须是对应类的成员:
+        Screen::pos ht = 24 , wd = 80;          //使用Screen定义的pos类型
+        Screen scre(ht , wd , ' ');
+        Screen *p = &scr;
+        char c = scr.get()                      //访问scr对象的get成员
+        c = p -> get();
+    作用域和定义在类外部的成员
+        一个类就是一个作用域的事实能够很好地解释为什么当我们在类外部定义成员函数时必须同时提供类名和函数名
+        在类的外部,成员的名字被隐藏起来了
+        一旦遇到了类名,定义的剩余部分就在类的作用域之内了,这里的剩余部分包括参数列表和函数体.结果就是,我们可以直接使用类的其他成员无须再次授权了.
+7.5 构造函数再探
+构造函数初始值列表
+    当我们定义变量时习惯于立即对其进行初始化,而非定义,再赋值:
+        string foo = "Hello World!";            //定义并初始化
+        string bar ;                            //默认初始化成空string对象
+        bar = "Hello World!";                   //为bar赋一个新值
+    就对象的数据成员而言,初始化和赋值也有类似的区别.如果没有在构造函数的初始列表中显式地初始化成员,则该成员将在构造函数体之前执行默认初始化.
+        Sales_data::Sales_data(const string &s, unsigned cnt , double price){
+            bookNo = s ;
+            units_sold = cnt;
+            revenue = cnt * price;
+        }        
+隐式的类类型转换
+    曾经介绍过C++语言在内置类型之间定义了几种自动转换规则.同样也可以为类定义隐式转换规则.
+    如果构造函数只接受一个实参,则它实际上定义了转换为此类型的隐式转换机制
+    有时我们把这种构造函数称作转换构造函数.
 
+    能通过一个实参调用的构造函数定义了一条从构造函数的参数类型向类类型隐式转换的规则
+7.6类的静态成员
+    有的时候类需要它的一些成员与类本身直接相关,而不是与类的各个对象保持关联.
+    声明静态成员
+        我们通过在成员的声明之前加上static使得其与类关联在一起.和其他成员友元,静态成员可以是public的或private的.
+        静态数据成员的类型可以是常量,引用,指针,类类型等.
+        class Account {
+            public:
+                void calculate () { amount += amount * interestRate;}
+                static double rate() {retrun interestRate; }
+                static void rate (double);
+            private:
+                std::string owner;
+                double amount;
+                static double interestRate;
+                static double initRate();
+        };
+        类的静态成员存在于任何对象之外,对象中不包括任何与静态数据成员有关的数据.因此,每个Account对象将包含两个数据成员:
+            owner 和 amount. 只存在一个interestRate对象而且它被所有Account对象共享.
+        类似的,静态成员函数也不与任何对象绑定在一起,它们不包含this指针.作为结果,静态成员函数不能声明成const的,而且我们也不能在static函数体内使用this指针
+        这一限制既适用于this的显示使用,也对调用非静态成员的隐式使用有效
+    使用类的静态成员
+        使用作用域运算符直接访问静态成员:
+            double r;
+            r = Account::rate();        //使用作用域运算符访问静态成员
+        虽然静态成员不属于类的某个对象,但是我们仍然可以使用类的对象,引用或者指针来访问静态成员:
+            Account ac1;
+            Account *ac2 = &ac1;
+            //调用静态成员函数rate的等价形式
+            r = ac1.rate();             //通过Account的对象或引用
+            r = ac2 -> rate();          //通过指向Account对象的指针
 
 
 
