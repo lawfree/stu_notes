@@ -108,5 +108,17 @@ io对象无拷贝或赋值
             out.open("precious" , ofstream::app);       //模式为输出和追加
             out.close();
         在每次打开文件时,都要设置文件模式,可能是显示地设置,也可能是隐式地设置.当程序未指定模式时,就使用默认值
+8.3 string流
+    sstream头文件定义了三个类型来支持内存IO,这些类型可以向string写入数据,从string读取数据,就像string是一个io流一样
+    istringstream从string读取数据,ostringstream向string写入数据,而头文件stringstream既可以从string读取数据也可以向string写数据.
+    与fstream类型类似,头文件sstream中定义的类型都继承自我们已经使用过的iostream头文件中定义的类型.除了继承得到的操作,sstream中定义的类型还增加了一些成员
+    来管理与流相关联的string.
+                    stringstream特有的操作
+    sstream strm;           strm是一个未绑定的stringstream对象.sstream是头文件sstream中定义的一个类型
+    sstream strm(s);        strm是一个sstream对象,保存string s的一个拷贝.此构造函数是explict的
+    strm.str()              返回strm所保存的string的拷贝
+    strm.str(s)             将string s拷贝到strm中.
+使用istringstream
+    当我们的某些工作是对整行文本进行处理,而其他工作是处理行内的单个单纯时,通常可以用istringstream
 
  */
