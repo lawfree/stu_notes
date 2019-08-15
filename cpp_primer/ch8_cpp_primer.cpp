@@ -120,5 +120,40 @@ io对象无拷贝或赋值
     strm.str(s)             将string s拷贝到strm中.
 使用istringstream
     当我们的某些工作是对整行文本进行处理,而其他工作是处理行内的单个单纯时,通常可以用istringstream
+    考虑一个例子,假定有一个文件,列出了一些人和其电话,有些人只有一个号码,有些人有多个.
+    文件中每条记录都以一个人名开始,后面跟随一个或多个电话号码.
+        //成员默认为共有:
+        struct PersonInfo{
+            string name;
+            vector<string> phones;
+        };
+    类型PersonInfo的对象会有一个成员来表示人名,还有一个vector来保存此人的所有电话号码.
+    我们的程序会读取数据文件,并创建一个PersonInfo的vector.vector中每个元素对应文件中的一条记录,提取出一个人名和若干电话号码:
+        string line, word ；                    //分别保存来自输入的一行和单词
+        vector<PersonInfo> people;              //保存来自输入的所有记录
+        //逐行从输入读取数据,直至cin遇到文件尾
+        while (getline(cin, line)){
+            PersonInfo;                         //创建一个保存此记录数据的对象
+            istringstream record(line);         //将记录绑定到刚读入的行
+            record >> info.name;                //读取名字
+            while (record >> word)              //读取电话
+                info.phones.push_back(word);    //保持他们
+            people.push_back(info);             //将此记录追加people末尾
+        }
+    这里我们用getline从标准输入读取整条记录.如果getline调用成功,那么line中将保存着保存着从输入文件而来的一条记录.在while中,
+    我们定义了个局部PersonInfo对象,来保存当前记录中的数据
 
+    接下来我们将一个istringstream与刚刚读取的文本进行绑定,这样就可以在此istringstream上使用输入运算符来读取当前记录中的每个元素.
+    我们首先读取人名,随后用一个while循环读取此人的电话号码.
+使用ostringstream
+    当我们逐步构造输出,希望最后一起打印时,ostringstream是很有用的.
+
+小结
+    c++使用标准库来处理面向流的输入和输出:
+        iostream处理控制台io
+        fstream处理命名文件io
+        stringstream完成内存string的io
+    类fstream和stringstream都是继承自iostream的.输入类都继承自isream,输出类都继承自ostream.因此,可以在istream对象上执行的操作,也可以在
+    ifstream或istringstream对象上执行.继承自pstream的输出类也有类似情况.
+    
  */
