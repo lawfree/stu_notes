@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
 using namespace std;
 
@@ -8,6 +9,8 @@ int main (){
     vector<int> b (4,1);
     swap(a,b);
     cout << a[3]<< endl;    // 1
+
+
 
     return 0;
 }
@@ -76,4 +79,83 @@ begin和end成员
     如果两个容器都不是另一个容器的前缀子序列,则他们的比较结果取决于第一个不想等的元素的比较结果
 
 9.3顺序容器操作
+向顺序容器添加元素
+    使用push_back
+        容器元素是拷贝
+        当我们用一个对象来初始化容器时,或将一个对象插入到容器中时,实际上放入到容器中的是对象值的一个拷贝,而不是对象本身.
+        就像我们将一个对象传递给非引用参数一样,容器中的元素与提供值的对象之间没有任何关联.随后对容器中元素的任何改变都不会影响到原始对象.
+    使用push_front
+        除了push_back,list,forward_list和deque容器还支持名为push_front.此操作将元素插入到容器头部:
+            list<int> ilist;
+            //将元素添加到ilist开头
+            for(size_t ix = 0；ix != 4 ； ++ix)
+                ilist.push_front(ix);
+        此循环将元素0 1 2 3添加到ilist头部.
+    在容器的特定位置添加元素   
+        insert成员提供了更一般的添加功能,它允许我们在容器中任意位置插入0个或多个元素.
+        每个insert函数接受一个迭代器作为其第一个参数.迭代器指出了在容器中什么位置放置新元素.insert函数将元素插入到迭代器所指定的位置之前
+            slist.insert(iter, "Hello!");           //将"Hello!"添加到iter之前的位置.
+        将元素插入到vector,deque和string中的任何位置都是合法的.然而这样做可能很耗时
+    插入范围内的元素
+        除了第一个迭代器参数外,insert函数还可以接受更多的参数,这与容器构造焊素和类似.其中一个版本接受一个元素数目和一个值.
+            sevec.insert(svec.end() , 10 , "Anna");
+        这行代码将10个元素插到svec的末尾,并将所有元素都初始化为string "Anna".
+        接受一对迭代器或一个初始化列表的insert版本将给定范围中的元素插入到指定位置之前:
+    使用insert的返回值
+        通过使用insert的返回值,可以在容器中一个特定位置反复插入元素:
+            list<string> lst;
+            auto iter = lst.begin();
+            while(cin >> word)
+                iter = lst.insert(iter,word);       //等价于调用push_front
+        
+        在循环之前,我们将iter初始化为lst.begin().第一次调用insert会将我们刚刚读入的string插入到iter所指的元素之前的位置.insert返回的迭代器恰好指向这个元素/
+        我们将此迭代器赋予iter并重复循环,读取下一个单词.只要继续有单词读入,每步while循环就会将一个新元素插入到iter之前,并将iter改变为新加入元素的位置.
+        此元素为首元素.因此每步循环将一个新元素插入到list首元素之前的位置.
+    使用emplace操作
+        新标准引入了三个新成员--emplace_front,emplace和emplace_back,这些操作构造而不是拷贝元素.这些操作分别对应push_front,insert和push_back,
+        允许我们将元素放置在容器头部,一个指定位置之前或容器尾部.
+        当调用push或insert成员函数时,我们将元素类型的对象传递给它们,这些对象被拷贝到容器中.而当我们调用一个emplace成员函数时,则是将参数传递给元素类型的构造函数.
+        emplace成员使用这些参数在容器管理的内存空间中直接构造元素.
+            //在c的末尾构造一个Sales_data对象
+            //使用三个参数的Sales_data构造函数
+            c.emplace_back("978-059124",25,15.99);
+            //错误:没有接受三个参数的push_back版本
+            c.push_back("978-059124",25,15.99);
+            //正确:创建一个临时的Sales_data对象传递给push_back
+            c.push_back则会创建一个局部临时对象,并将其压入容器中
+        其中对emplace_back的调用和第二个push_back调用都会创建薪的Sale_data对象.在调用emplace_back时,会在容器管理的内存空间中直接创建对象.
+        而调用push_back则会创建一个局部临时对象,并将其压入容器中.
+            emplace函数的参数根据元素类型而变化,参数必须与元素类型的构造函数相匹配:
+            //iter指向c中一个元素,其中保存了Sales_data元素
+            c.emplace_back();   //使用Sales_data的默认构造函数
+            c.emplace(iter,"999-99999");    //使用Sales_data(string)
+            //使用Sales_data的接受一个ISBN,一个count和一个price的构造函数
+            c.emplace_front("978-059124,25,15.99");
+        emplace函数在容器中直接构造元素.传递给emplace函数的参数必须与元素类型的构造函数相匹配.
+访问元素
+                    在顺序容器中访问元素的操作  
+    at和下标操作只适用与string,vector,deque和array,back不适用于forward_list
+    c.back()        返回c中尾元素的引用,若c为空,函数行未定义
+    c.front()       返回c中首元素的引用,若c为空,函数行为未定义
+    c[n]            返回c中下标为n的元素的引用,n是一个无符号整数.若n >= c.size(),则函数行为未定义
+    c.at[n]         返回下标为n的元素的引用.如果下标越界,则抛出一out_of_range异常
+    对一个空容器调用front和back,就像使用一个越界的下标一样,是一种严重的程序设计错误.
+
+    访问成员函数返回的是引用
+        在容器中访问元素的成员函数(即,front,back,下标和at)返回的都是引用.如果容器是一个const对象,则返回的const的引用.
+    下标操作和安全的随机访问提供快速随机访问的容器也都提供下标运算符.下标运算符接受一个下标参数,返回容器中该位置的元素的引用.
+    给定下标必须"在范围内"(大于等于0,小于容器大小).
+    如果我们希望确保下标合法,可以用at成员函数.at成员函数类似下标运算符,但如果下标越界,at会抛出一个out_of_range异常
+        vector <string> svec ;          //空vector
+        cout << svec[0];                //运行时错误:svec中没有元素
+        cout << svec.at(0);             //抛出一个out_of_range异常
+删除元素
+    与添加元素的多种方式类似,容器也有多种删除元素的方式.
+                        顺序容器的删除操作  
+        forward_list 有特殊版本的erase
+        forward_list 不支持pop_back;vector 和 string 不支持pop_front
+        c.pop_back()        删除c中尾元素.若c为空,则函数未定义
+        c.pop_front()       删除c中首元素.若c为空,则函数行为未定义.函数返回void
+    pop_front 和 pop_back 成员函数
+         pop_front和pop_back 成员函数分别删除首元素和尾元素.与vector和string不支持
  */
