@@ -157,5 +157,123 @@ begin和end成员
         c.pop_back()        删除c中尾元素.若c为空,则函数未定义
         c.pop_front()       删除c中首元素.若c为空,则函数行为未定义.函数返回void
     pop_front 和 pop_back 成员函数
-         pop_front和pop_back 成员函数分别删除首元素和尾元素.与vector和string不支持
+         pop_front和pop_back 成员函数分别删除首元素和尾元素.与vector和string不支持push_front一样,也不支持pop_front.
+         类似forward_list不支持pop_back.与元素访问成员函数类似,不能对一个空容器执行弹出操作.
+        
+        这些操作返回void,如果需要弹出的元素的值,就必须在执行弹出操作之前保存它:
+    从容器内部删除一个元素
+        成员函数erase从容器中指定位置删除元素.我们可以删除由一个迭代器指定的单个元素,也可以删除由一对迭代器指定的范围内的所有元素.
+        两种形式erase都返回指向删除的元素之后位置的迭代器.即,若j是i之后的元素,那么erase(i)将返回指向j的迭代器.
+            例如下面删除一个list中所有奇数的元素:
+                list<int> lst = {0,1,2,3,4,5,6,7,8,9};
+                auto t = lst.begin();
+                while(it != lst.end())
+                    if (* it % 2)               //若元素为奇数
+                        it = lst.erase(it);     //删除此元素
+                    else
+                        ++ it;
+    删除多个元素
+        接受一对迭代器的erase版本允许我们删除一个范围内的元素:
+            //删除两个迭代器表示范围内的元素
+            //返回指向最后一个被删元素之后位置的迭代器
+            elem1 = slist.erase(elem1 , elem2); //调用后 ,elem1 == elem2
+        迭代器elem1 指向我们要删除的第一个元素,elem2 指向我们要删除的最后一个元素之后的位置
+        为了删除一个容器中的所有元素,我们既可以调用clear,也可以用begin和end获得的迭代器作为参数调用erase:
+            slist.clear();                      //删除容器中所有元素
+            slist.erase(slist.begin() , slist.end());       //等价调用
+改变容器大小
+    我们可以用resize来增大或减小容器,不适用与array
+        c.resize(n)             调整c的大小为n个元素.若n < c.size() , 则多出来的元素被丢弃.若必须添加新元素,对新元素进行值初始化
+        c.resize(n , t)         调整c的大小为n个元素.任何新添加的元素都初始化为t
+9.5额外的string 操作
+    除了顺序容器共同的操作外,string类型还提供了一些额外的操作.这些操作中的大部分要么是提供string类和C风格字符数组之间的相互转换,
+    要么是增加了允许我们常用下标代替迭代器的版本.
+构造string的其他方法
+                        其他构造string方法
+    n,len2和pos2都是无符号值
+    string s(cp , n)            s是cp指向的数组中前n个字符的拷贝.此数组至少应该包含n个字符
+    string s(s2 , pos2)         s是string s2 从下标 pos2 开始的拷贝
+    string s(s2 , pos2 , len2)  s是string s2 从下标 pos2 开始len2个字符的拷贝.若pos2 > s2.size(),构造函数行为未定义.
+
+    这些构造函数接受一个string或一个const char* 参数, 还接受(可选的)指定拷贝多少个字符的参数.当我们传递给它们的是一个string时,
+    还可以给定一个下标来指出从哪里开始拷贝:
+        const char *cp = "Hello World!!!";          //以空字符
+        char noNull[] = {'H' , 'i'};                //不是以空字符结束
+        string s1(cp);                              //拷贝cp中的字符直到遇到空字符；    s1 == "Hello World!!!"                 
+        string s2(noNull , 2);                      //从noNull拷贝两个字符;s2 == "Hi"
+        string s3(noNull);                          //未定义:noNull不是以空字符结束
+        string s4(cp +６　，　５)；                   //从cp[6]开始拷贝5个字符;s4 == "World"
+    substr操作
+        返回一个string,它是原始string的一部分或全部的拷贝.可以传递给substr一个可选的开始位置和计数值:
+            string s("hello world");
+            string s2 = s.substr(0 , 5);            //s2 = hello
+            string s3 = s.substr(6);                //s3 = world
+            string s4 = s.substr(6 , 11);           //s4 = world
+        s.substr(pos , n)           返回一个string,包含s中pos开始的n个字符的拷贝.pos的默认值为0.n的默认值为s.size() - pos, 即拷贝从pos开始的所有字符
+改变string的其他方法
+    除了迭代器的insert 和 erase 版本外, string 还提供了接受下标的版本.下标指出了开始删除的位置,或是insert给定值之前的位置
+        s.insert(s.size() , 5 , '!');               //在s末尾插入5个感叹号
+        s.erase(s.size() - 5 , 5 );                 //从s 删除最后5 个字符
+    标准库 string 类型还提供了接受C风格字符数组的insert和assign版本.例如,我们可以将空字符结尾的字符数组insert到或assign给一个string:
+        const char *cp = "Stately, plump Buck";     
+        s.assign(cp , 7);                           //s == "Stately"
+        s.insert(s.size(), cp + 7);                 //s == "Stately, plump Buck"
+    此处我们首先通过调用assign替换s的内容.我们赋予s的是cp指向的地址开始的7个字符
+    append 和 replace 函数
+        string 类定义了两个额外的成员函数: append 和 replace, 这俩个函数可以改变string1的内容.append是在三头日国内末尾进行插入
+string搜索操作
+    find 函数完成最简单的搜索.它查找参数指定的字符串,若找到,则返回第一个匹配位置的下标,否则返回npos:
+        string name("AnnaBelle");
+        auto pos1 = name.find("Anna");              //pos1 == 0
+    这段程序返回0 , 即子字符串在AnnaBelle中第一次出现的下标.
+                    string 搜索操作
+        s.find(args)                    查找s中args第一次出现的位置
+        s.rfind(args)                   查找s中args最后一次出现的位置
+        s.find_first_of(args)           在s中查找args中任何一个字符
+        s.find_first_not_of(args)       在s中查找第一个不在args中的字符
+
+        args必须是以下形式之一
+        c,pos                           从s中位置pos开始查找字符c.pos默认为0
+        s2,pos                          从s中位置pos开始查找字符串s2.pos默认为0
+compare函数
+    除了关系运算符外,标准库string 类型还提供了一组compare函数,这些函数与C标准库的strcmp相似
+    compare有6个版本,根据我们是要比较俩个string还是一个string与一个字符串数组,参数各有不同
+                    s.compare的几种参数
+        s2                              比较s和s2
+        pos1 , n1 , s2                  将s中从pos1开始的n1个字符与s2进行比较
+        pos1 , s2 , pos2, n2            将s中从pos1开始的n1个字符与s2中从pos2开始的n2个字符进行比较奥
+        cp                              比较s与cp指向的以空
+        pos1,n1,cp                      将s中从pos1开始的n1个字符与cp指向的以空字符结尾的字符串数组进行比较
+数值转换
+        int i = 42 ;
+        string s = to_string(i);        //将整数i转换为字符表示形式
+        double d = stod(s);             //将字符串s转换为浮点数
+    要转换为数值的string中第一个非空白字符必须是数值中可能出现的字符:
+        string s2 = "pi = 3.14";
+        //转换s中以数字开始的第一个子串,结果d = 3.14
+        d = stod (s2.substr(s2.find_first_of("+-.0123456789")));
+    在这个stod调用中,我们调用了find_find_of来获得s中第一个可能是数值的一部分的字符的位置.
+                        string 和数值之间的转换
+        to_string(val)          一组重载函数,返回数值val的string表示.val可以是任何算术类型.对每个浮点类型和int或更大的整型,都有相应版本的to_string.
+        stoi(s,p,b)             返回s的起始子串(表示整数内容)的数值,返回值类型分别是int,long,,,b表示转换所用的基数,默认为10.p是size_t指针,用来保存
+                                s中第一个非数值字符的下标,即,函数不保存下标返回s的起始子串的数值,返回值类型分别是float,double
+9.6容器适配器
+    除了顺序容器,标准库还定义了三个顺序容器适配器: stack queue 和 priority_queue .
+    本质上适配器接受一种已有的容器类型,使其行为看起来像一种不同的类型.
+    定义一个适配器
+        每个适配器都定义两个构造函数:默认构造函数创建一个空对象,接受一个容器的构造函数拷贝该容器来初始化适配器.例如,假定deq是一个deque<int>,我们可以用deq来初始化
+        一个新的stack
+            stack<int> stk(deq);            //从deq拷贝元素到stk
+        默认情况,stack和queue是基于deque实现的,priority_queue是在vector之上实现的.我们可以在创建一个适配器时将一个命名的顺序容器作为第二个类型参数,来重载默认容器
+            //在vector上实现的空栈
+            stack<string , vector<string>> str_stk;
+    栈适配器
+        stack类型定义在stack头文件中.
+            stack<int> intStack;            //空栈
+            // 填满栈
+            for(size_t ix = 0 ；ix != 10 ；++ ix)
+                intStack.push(ix);          //intStack保存0到9十个数
+            while(!intStack.empty()){
+                intStack.pop();             //弹出栈顶.
+            }        
  */
