@@ -86,10 +86,41 @@ pair 类型
             word_count.insert(make_pair(word,1);
             word_count.insert(pair<string, size_t>(word, 1));
             word_count.insert( map<string, size_t>::value_type(word, 1));
+删除元素
+    与顺序容器一样,我们可以通过传递给erase一个迭代器或一个迭代器对来删除一个元素或者一个元素范围.这两个版本的erase与对应的顺序容器的操作相似:
+    指定元素被删除,函数返回void.
+
+    关联容器提供一个额外的erase操作,它接受一个key_type参数.此版本删除所有匹配给定关键字的元素,返回实际删除的元素的数量.此版本删除所有匹配给定关键字的元素,
+    返回实际删除的元素的数量.
+            //删除一个关键字
+            if(word_count.erase(removal_word)) 
+    对于保存不重复关键字的容器,erase的返回值总是0 或 1. 若返回值为0, 则表明想要删除的元素并不在容器中
+        对允许重复关键字的容器,删除元素的数量可能大于1
+                            从关联容器删除元素
+        c.erase(k)              从c中删除每个关键字为k的元素.返回一个size_type值,指出删除的元素的数量
+        c.erase(p)              从c中删除迭代器p指定的元素.p必须指向c中一个真是元素,不能等于c.end().返回一个指向p之后元素的迭代器,若p指向c中的尾元素,则返回c.end()
+        c.erase(b, e)           删除迭代器对b和e所表示的范围中的元素
+map的下标操作
+    对于一个map使用下标操作, 其行为与数组或 vector 上的下标操作很不相同:使用一个不在容器中的关键字下标,会添加一个具有此关键字的元素到map中
+                            map 和 unordered_map 的下标操作
+        c[k]        返回关键字为k的元素:如果k不在c中,添加一个关键字为k的元素,对其进行初始化.
+        c.at[k]     访问关键字为k的元素,带参数检查;若k不在c中,抛出一个out_of_range异常      
+访问元素
+        set<int>  iset = {0,1,2,3,4,5,6,7,8,9};
+        iset.find(1);   //返回一个迭代器,指向key == 1 的元素
+        iset.find(1);   //返回一个迭代器,其值等于iset.end()
+        iset.count(1);  //返回1
+        iset.count(11); //返回0
+
+                        在一个关联容器中查找元素的操作
+        lower_bound 和 upper_bound 不适合于无序容器
+        下标和at操作只适用于非 const 的map 和unordered_map
+        c.find(k)           返回一个迭代器,指向第一个关键字为k的元素,若k不在容器中,则返回尾后迭代器
+        c.count(k)          返回关键字等于k的元素的数量.对于不允许重复关键字的容器,返回值永远是0或1
+        c.lower_bound(k)    返回一个迭代器,指向第一个关键字大于k的元素
+        c.equal_range(k)    返回一个迭代器pair,表示关键字等于k的元素的范围.若k不存在,pair的两个成员均等于c.end()
+11.4 无序容器
+    如果关键字类型固有就是无序的,或者性能测试发现问题可以用哈希技术解决,就可以使用无序容器
         
 
-                 
-
-
-    
  */
