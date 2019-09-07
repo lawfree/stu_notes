@@ -47,6 +47,7 @@ public class Employee {
 
         //test whether the fields have identical values
         return  Objects.equals(name, other.name) && salary == other.salary && Objects.equals(hireDay, other.hireDay);
+
     }
 
     @Override
@@ -54,6 +55,11 @@ public class Employee {
         //return super.hashCode();
 
         return  Objects.hash(name , salary , hireDay);
+    }
+
+    @Override
+    public String toString() {
+        return  getClass().getName() + "[ name = " + name + " ,salary = " + salary + ",hireDay =" + hireDay + "]";
 
     }
 }
