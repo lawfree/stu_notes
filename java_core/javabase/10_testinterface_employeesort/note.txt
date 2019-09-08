@@ -1,0 +1,24 @@
+6.1.3 接口与抽象类
+    如果阅读了第 5 章中有关抽象类的内容， 那就可能会产生这样一个疑问：为什么 Java 程
+    序设计语言还要不辞辛苦地引入接口概念？ 为什么不将 Comparable 直接设计成如下所示的
+    抽象类。
+    abstract class Comparable // why not?
+    {
+    public abstract int compareTo(Object other);
+    }
+    然后，Employee 类再直接扩展这个抽象类， 并提供 compareTo 方法的实现：
+    class Employee extends Comparable // why not?
+    {
+    public int compareTo(Object other) { . . . }
+    }
+
+    非常遗憾， 使用抽象类表示通用属性存在这样一个问题： 每个类只能扩展于一个类。假
+    设 Employee 类已经扩展于一个类， 例如 Person, 它就不能再像下面这样扩展第二个类了：
+    class Employee extends Person, Comparable // Error
+    但每个类可以像下面这样实现多个接口：
+    cl ass Employee extends Person implements Comparable // OK
+    有些程序设计语言允许一个类有多个超类， 例如 C++。我们将此特性称为多重继承
+    ( multiple inheritance。) 而 Java 的设计者选择了不支持多继承，其主要原因是多继承会让语言
+    本身变得非常复杂（如同 C++，) 效率也会降低（如同 Eiffel。)
+    实际上，接口可以提供多重继承的大多数好处，同时还能避免多重继承的复杂性和低效性。
+
