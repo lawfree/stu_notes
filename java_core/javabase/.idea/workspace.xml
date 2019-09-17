@@ -8,6 +8,9 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="javabase" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -17,6 +20,10 @@
   </component>
   <component name="ProjectId" id="1QAwcbaT8aEyR1UPABgR5rrr6WK" />
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8" />
@@ -24,7 +31,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -38,39 +45,94 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.TestAbstractClass">
-    <configuration name="TestAbstractClass" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.lowfree.TestAbstractClass" />
-      <module name="04_testabstractclass" />
+  <component name="RunManager" selected="JUnit.TestByteStream.copyFile">
+    <configuration name="TestByteStream.copyFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="18_testIO" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.lowfree.*" />
+          <option name="PATTERN" value="com.lowfree.bytestream.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="com.lowfree.bytestream" />
+      <option name="MAIN_CLASS_NAME" value="com.lowfree.bytestream.TestByteStream" />
+      <option name="METHOD_NAME" value="copyFile" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestObjectClass_1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="TestObjectClass_1" />
-      <module name="testobjectclass" />
+    <configuration name="TestByteStream.readFromFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="18_testIO" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lowfree.bytestream.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.lowfree.bytestream" />
+      <option name="MAIN_CLASS_NAME" value="com.lowfree.bytestream.TestByteStream" />
+      <option name="METHOD_NAME" value="readFromFile" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestScannerInput" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="TestScannerInput" />
-      <module name="testscanner" />
+    <configuration name="TestByteStream.tes1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="18_testIO" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lowfree.bytestream.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.lowfree.bytestream" />
+      <option name="MAIN_CLASS_NAME" value="com.lowfree.bytestream.TestByteStream" />
+      <option name="METHOD_NAME" value="tes1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestByteStream.writeToFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="18_testIO" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lowfree.bytestream.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.lowfree.bytestream" />
+      <option name="MAIN_CLASS_NAME" value="com.lowfree.bytestream.TestByteStream" />
+      <option name="METHOD_NAME" value="writeToFile" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestLambda.test3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="12_testlambda" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lowfree01.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.lowfree01" />
+      <option name="MAIN_CLASS_NAME" value="com.lowfree01.TestLambda" />
+      <option name="METHOD_NAME" value="test3" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.TestAbstractClass" />
-        <item itemvalue="Application.TestObjectClass_1" />
-        <item itemvalue="Application.TestScannerInput" />
+        <item itemvalue="JUnit.TestByteStream.copyFile" />
+        <item itemvalue="JUnit.TestByteStream.readFromFile" />
+        <item itemvalue="JUnit.TestByteStream.writeToFile" />
+        <item itemvalue="JUnit.TestByteStream.tes1" />
+        <item itemvalue="JUnit.TestLambda.test3" />
       </list>
     </recent_temporary>
   </component>
@@ -85,7 +147,11 @@
       <option name="presentableId" value="Default" />
       <updated>1567226788796</updated>
       <workItem from="1567226791295" duration="9181000" />
-      <workItem from="1567312660702" duration="30484000" />
+      <workItem from="1567312660702" duration="30735000" />
+      <workItem from="1567559194419" duration="6933000" />
+      <workItem from="1567754189038" duration="3255000" />
+      <workItem from="1567833170942" duration="67322000" />
+      <workItem from="1568596129886" duration="1533000" />
     </task>
     <servers />
   </component>

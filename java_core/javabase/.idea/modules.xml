@@ -4,6 +4,19 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/04_testabstractclass/04_testabstractclass.iml" filepath="$PROJECT_DIR$/04_testabstractclass/04_testabstractclass.iml" />
       <module fileurl="file://$PROJECT_DIR$/05_testObject/05_testObject.iml" filepath="$PROJECT_DIR$/05_testObject/05_testObject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/06_testequals/06_testequals.iml" filepath="$PROJECT_DIR$/06_testequals/06_testequals.iml" />
+      <module fileurl="file://$PROJECT_DIR$/07_testObjectwrapperautomaticpackin/07_testObjectwrapperautomaticpackin.iml" filepath="$PROJECT_DIR$/07_testObjectwrapperautomaticpackin/07_testObjectwrapperautomaticpackin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/08_testenum/08_testenum.iml" filepath="$PROJECT_DIR$/08_testenum/08_testenum.iml" />
+      <module fileurl="file://$PROJECT_DIR$/09_testreflection/09_testreflection.iml" filepath="$PROJECT_DIR$/09_testreflection/09_testreflection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/10_testinterface_employeesort/10_testinterface_employeesort.iml" filepath="$PROJECT_DIR$/10_testinterface_employeesort/10_testinterface_employeesort.iml" />
+      <module fileurl="file://$PROJECT_DIR$/11_testinterface_testcloneable/11_testinterface_testcloneable.iml" filepath="$PROJECT_DIR$/11_testinterface_testcloneable/11_testinterface_testcloneable.iml" />
+      <module fileurl="file://$PROJECT_DIR$/12_testlambda/12_testlambda.iml" filepath="$PROJECT_DIR$/12_testlambda/12_testlambda.iml" />
+      <module fileurl="file://$PROJECT_DIR$/13_testinnerclass/13_testinnerclass.iml" filepath="$PROJECT_DIR$/13_testinnerclass/13_testinnerclass.iml" />
+      <module fileurl="file://$PROJECT_DIR$/14_testinnerclass/14_testinnerclass.iml" filepath="$PROJECT_DIR$/14_testinnerclass/14_testinnerclass.iml" />
+      <module fileurl="file://$PROJECT_DIR$/15_testexception/15_testexception.iml" filepath="$PROJECT_DIR$/15_testexception/15_testexception.iml" />
+      <module fileurl="file://$PROJECT_DIR$/16_testegenerics/16_testegenerics.iml" filepath="$PROJECT_DIR$/16_testegenerics/16_testegenerics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/17_testthread/17_testthread.iml" filepath="$PROJECT_DIR$/17_testthread/17_testthread.iml" />
+      <module fileurl="file://$PROJECT_DIR$/18_testIO/18_testIO.iml" filepath="$PROJECT_DIR$/18_testIO/18_testIO.iml" />
       <module fileurl="file://$PROJECT_DIR$/testobjectclass/testobjectclass.iml" filepath="$PROJECT_DIR$/testobjectclass/testobjectclass.iml" />
       <module fileurl="file://$PROJECT_DIR$/testpackage/testpackage.iml" filepath="$PROJECT_DIR$/testpackage/testpackage.iml" />
       <module fileurl="file://$PROJECT_DIR$/testscanner/testscanner.iml" filepath="$PROJECT_DIR$/testscanner/testscanner.iml" />

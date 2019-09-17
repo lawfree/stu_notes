@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="w02_sessionmanagement:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/w02_sessionmanagement_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="w02_sessionmanagement/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="w02_sessionmanagement" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

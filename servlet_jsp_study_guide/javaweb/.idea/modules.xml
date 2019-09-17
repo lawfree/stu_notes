@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/w01_myfisrtservlet/w01_myfisrtservlet.iml" filepath="$PROJECT_DIR$/w01_myfisrtservlet/w01_myfisrtservlet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/w02_sessionmanagement/w02_sessionmanagement.iml" filepath="$PROJECT_DIR$/w02_sessionmanagement/w02_sessionmanagement.iml" />
+    </modules>
+  </component>
+</project>

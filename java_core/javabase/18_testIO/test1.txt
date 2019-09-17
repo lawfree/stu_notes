@@ -1,0 +1,5 @@
+hello ,FileOutPutStream
+a
+abcdehello ,FileOutPutStream
+a
+abcde
