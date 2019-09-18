@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/w01_myfisrtservlet/w01_myfisrtservlet.iml" filepath="$PROJECT_DIR$/w01_myfisrtservlet/w01_myfisrtservlet.iml" />
       <module fileurl="file://$PROJECT_DIR$/w02_sessionmanagement/w02_sessionmanagement.iml" filepath="$PROJECT_DIR$/w02_sessionmanagement/w02_sessionmanagement.iml" />
+      <module fileurl="file://$PROJECT_DIR$/w03_testJDBC/w03_testJDBC.iml" filepath="$PROJECT_DIR$/w03_testJDBC/w03_testJDBC.iml" />
     </modules>
   </component>
 </project>
