@@ -101,7 +101,7 @@ public class Top10Servlet extends HttpServlet {
                     "");
 
 
-        response.getWriter().print(                "</body> </html>"  );
+        response.getWriter().print(    "</body> </html>"  );
 
     }
 
